@@ -8,11 +8,11 @@
  */
 
 use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\Middleware\AuthorizationServerMiddleware;
 use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
+use League\OAuth2\Server\ResourceServer;
 use OAuth2ServerExamples\Repositories\AccessTokenRepository;
 use OAuth2ServerExamples\Repositories\AuthCodeRepository;
 use OAuth2ServerExamples\Repositories\ClientRepository;
@@ -48,6 +48,7 @@ $app = new App([
             $privateKeyPath,
             $publicKeyPath
         );
+        $server->setEncryptionKey('lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen');
 
         // Enable the authentication code grant on the server with a token TTL of 1 hour
         $server->enableGrantType(
@@ -62,7 +63,7 @@ $app = new App([
         // Enable the refresh token grant on the server with a token TTL of 1 month
         $server->enableGrantType(
             new RefreshTokenGrant($refreshTokenRepository),
-            new \DateInterval('PT1M')
+            new \DateInterval('P1M')
         );
 
         return $server;
@@ -74,6 +75,7 @@ $app = new App([
             new AccessTokenRepository(),
             $publicKeyPath
         );
+
         return $server;
     },
 ]);
